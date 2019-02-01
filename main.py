@@ -41,13 +41,13 @@ while get_current_month(dpicker_table) != MONTH_NAME:
 calendar_rows = dpicker_table.find_element_by_tag_name('tbody').find_elements_by_tag_name('tr')
 # print('Discovered {} rows.'.format(len(calendar_rows)))
 
-# Build a list of days - tuples (classname, day number).
+# Build a list of active days.
 # Get tr elements from each row.
 this_month = lambda day: day.get_attribute('class') == 'day active'
 days = []
 for row in calendar_rows:
 	d = row.find_elements_by_tag_name('td')
-	d = [(i.get_attribute('class'), i.text) for i in d if this_month(i)]
+	d = [i.text for i in d if this_month(i)]
 	days += d
 
 # print('Obtained {} days:\n{}'.format(len(days), days))
@@ -55,7 +55,7 @@ for row in calendar_rows:
 def day_print(arr):
 	result = ''
 	for i in arr:
-		result += i[1] + ' '
+		result += i + ' '
 	return result
 
 print('Active days in {}: {}'.format(MONTH_NAME, day_print(days)))
